@@ -2,14 +2,14 @@
 
 > A compilation of my cloud projects showcasing my cloud skills and resillience as a self-taught learner. Portfolio site is deployed on a serverless Cloud Run service.
 
-# Tech Stack
+## Tech Stack
 
-# How to use
+## How to use
 
-# Contact Me
+## Contact Me
 
-# Project Structure
+## Project Structure
 
-# License
+## License
 
 [**MIT License**](LICENSE)
