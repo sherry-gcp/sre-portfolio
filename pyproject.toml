@@ -1,7 +1,12 @@
 [project]
-name = "sre-portfolio"
+name = "portfolio"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = []
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.135.1",
+    "google-cloud-firestore",
+    "python-dotenv",
+    "uvicorn>=0.41.0",
+]
