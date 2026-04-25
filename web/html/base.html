@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+
+    <title>{% block title %}SRE Portfolio{% endblock %}</title>
+</head>
+
+<body class="min-h-screen flex flex-col bg-background text-on-background font-body antialiased">
+    <!-- Navbar -->
+    <header
+        class="sticky docked full-width top-0 z-50 tonal layering with backdrop-blur-md bg-opacity-95 shadow-xl dark:shadow-2xl shadow-zinc-900/20 bg-[#333333] dark:bg-zinc-900 text-zinc-100 dark:text-zinc-200">
+        <div
+            class="relative flex justify-between items-center w-full px-6 py-2 max-w-screen-2xl mx-auto Headlines: Manrope bold text-xl. Body: Inter font-medium. High-contrast editorial mix.">
+            <!-- Navigation Links -->
+            <nav
+                class="hidden md:flex gap-6 items-center font-body text-base font-medium uppercase font-bold tracking-wider">
+                <a class="{% if active_page == 'projects' %}text-white border-b-2 border-stone-100 pb-0.5{% else %}text-zinc-400 hover:text-zinc-200 transition-colors{% endif %} hover:opacity-80 transition-all duration-300 scale-95 active:opacity-70"
+                    href="projects.html">Projects</a>
+                <a class="{% if active_page == 'about' %}text-white border-b-2 border-stone-100 pb-0.5{% else %}text-zinc-400 hover:text-zinc-200 transition-colors{% endif %} hover:opacity-80 transition-all duration-300 scale-95 active:opacity-70"
+                    href="about.html">About</a>
+            </nav>
+            <!-- Mobile Menu Icon -->
+            <button id="mobile-menu-button" class="md:hidden text-zinc-100">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <!-- Brand Logo -->
+            <div
+                class="text-xl md:text-2xl font-black tracking-tighter text-white uppercase absolute left-1/2 -translate-x-1/2 font-headline">
+                <a href="index.html">CLOUD ENGINEER</a>
+            </div>
+            <!-- Trailing Action -->
+            <div class="flex items-center">
+                <a class="bg-primary hover:bg-primary-dim text-on-primary px-3 py-1.5 rounded-md font-body text-sm font-bold uppercase tracking-wider transition-colors hover:opacity-80 transition-all duration-300 scale-95 active:opacity-70"
+                    href="connect.html">
+                    Connect
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Jinja Injection Point -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer
+        class="bg-stone-50 dark:bg-zinc-950 text-stone-900 dark:text-stone-100 full-width py-12 flex flex-col items-center gap-6 w-full border-t border-stone-200/20 bg-surface-container-low transition-all duration-500 ease-in-out mt-auto">
+        <!-- TODO: Add functional Resume link and verify Project link on localhost deployment -->
+        <div class="flex gap-8 items-center font-label text-xs uppercase tracking-widest">
+            <a class="text-stone-500 hover:text-stone-900 underline decoration-stone-300 font-label text-sm"
+                href="index.html">Home</a>
+            <a class="text-stone-500 hover:text-stone-900 underline decoration-stone-300 font-label text-sm"
+                href="https://www.linkedin.com/in/sherrymt" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a class="text-stone-500 hover:text-stone-900 underline decoration-stone-300 font-label text-sm"
+                href="https://github.com/sherry-gcp" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a class="text-stone-500 hover:text-stone-900 underline decoration-stone-300 font-label text-sm"
+                href="mailto:hello@sherrym.dev">Email</a>
+            <a class="text-stone-500 hover:text-stone-900 underline decoration-stone-300 font-label text-sm"
+                href="#">Resume</a>
+        </div>
+        <div class="font-label text-xs uppercase tracking-widest text-stone-500">
+            © 2026 Sherry Montes. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu-backdrop"
+        class="fixed inset-0 z-[90] bg-black/20 backdrop-blur-sm hidden transition-opacity duration-300"></div>
+    <div id="mobile-menu"
+        class="fixed inset-y-0 right-0 z-[100] w-64 bg-[#333333] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-8 gap-8 text-base font-headline uppercase tracking-widest text-white shadow-2xl">
+        <button id="close-menu-button" class="self-end text-white">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+        <nav class="flex flex-col gap-6 mt-4">
+            <a href="index.html" class="hover:text-zinc-400 transition-colors border-b border-white/10 pb-2">Home</a>
+            <a href="projects.html"
+                class="hover:text-zinc-400 transition-colors border-b border-white/10 pb-2">Projects</a>
+            <a href="about.html" class="hover:text-zinc-400 transition-colors border-b border-white/10 pb-2">About</a>
+            <a href="connect.html"
+                class="bg-primary text-on-primary px-4 py-3 rounded-md text-center text-sm font-bold mt-4">Connect</a>
+        </nav>
+    </div>
+
+    <script>
+        const menuButton = document.getElementById('mobile-menu-button');
+        const closeButton = document.getElementById('close-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
+
+        const toggleMenu = (open) => {
+            if (open) {
+                backdrop.classList.remove('hidden');
+                mobileMenu.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden';
+            } else {
+                backdrop.classList.add('hidden');
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+            }
+        };
+
+        if (menuButton && closeButton && mobileMenu && backdrop) {
+            menuButton.addEventListener('click', () => toggleMenu(true));
+            closeButton.addEventListener('click', () => toggleMenu(false));
+            backdrop.addEventListener('click', () => toggleMenu(false));
+
+            // Close menu if a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => toggleMenu(false));
+            });
+        }
+    </script>
+</body>
+
+</html>
