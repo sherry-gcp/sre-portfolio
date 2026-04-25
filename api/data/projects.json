@@ -1,0 +1,59 @@
+[
+  {
+    "id": "farmers-fleet",
+    "name": "Farmers Fleet",
+    "statement": "An event-driven logistics system deployed via Infrastructure as Code (IaC) on Google Kubernetes Engine. Designed to connect farmers and fleet through a centralized, real-time dispatch tower.",
+    "stack": ["Kubernetes", "Google Maps Platform", "Pub/Sub", "Terraform", "Cloud Build", "GKE", "Maps Javascript API"],
+    "github_url": "https://github.com/sherry-gcp/farmers-fleet",
+    "live_demo_url": "https://youtu.be/4wY-8xipKCc",
+    "documentation_url": "https://github.com/sherry-gcp/farmers-fleet/tree/main/Documentation"
+  },
+  {
+    "id": "store-locator",
+    "name": "Store Locator & Discovery",
+    "statement": "A cloud-native store locator application with discovery features showing five nearest stores on the map from a user's starting location. Uses Google Maps Platform APIs for location services.",
+    "stack": ["Serverless", "Distance Matrix API", "Cloud Run", "Firestore", "Terraform", "Google Maps Platform"],
+    "github_url": "https://github.com/sherry-gcp/store-locator-maps",
+    "live_demo_url": "https://youtu.be/B_G-MbKrVa4",
+    "documentation_url": "https://github.com/sherry-gcp/store-locator-maps/blob/main/docs/migration.md"
+  },
+  {
+    "id": "journal-starter",
+    "name": "Journal Starter - Learn to Cloud",
+    "statement": "A foundational project demonstrating AI integration and secure database connectivity as part of the learntocloud.guide curriculum.",
+    "stack": ["Foundation", "AI (LLM)", "Kubernetes", "Github Actions", "Cloud SQL", "Postgres", "Bastion Host"],
+    "github_url": "https://github.com/sherry-gcp/journal-starter",
+    "live_demo_label": "Course Page",
+    "live_demo_url": "https://learntocloud.guide",
+    "documentation_url": "#"
+  },
+  {
+    "id": "sql-data-warehouse",
+    "name": "SQL Data Warehouse Project",
+    "statement": "A personal deep dive into SQL and Data Warehousing, implementing the Medallion Architecture (Bronze, Silver, Gold) and Star Schema modeling.",
+    "stack": ["SQL Server", "Docker", "Azure Data Studio", "Notion"],
+    "github_url": "https://github.com/sherry-gcp/sql-datawarehouse-project",
+    "live_demo_label": "Course Page",
+    "live_demo_url": "https://www.datawithbaraa.com/course/sql-full-course-for-beginners",
+    "documentation_url": "https://www.notion.so/Data-Warehouse-Project-30edb763bb4980e5b02ef514c9ea6bda"
+  },
+  {
+    "id": "sand-gravel-ops",
+    "name": "Sand Gravel Ops",
+    "statement": "A streamlined API for sand and gravel operations, designed to manage orders, track inventory, and monitor status.",
+    "stack": ["PostgreSQL", "Docker", "SQLAlchemy", "FastAPI", "Python"],
+    "github_url": "https://github.com/sherry-gcp/sand-gravel-ops",
+    "live_demo_label": "Preview",
+    "live_demo_url": "https://github.com/sherry-gcp/sand-gravel-ops/blob/main/media/sg-ops-api.png",
+    "documentation_url": "https://github.com/sherry-gcp/sand-gravel-ops/blob/main/README.md"
+  },
+  {
+    "id": "sre-portfolio",
+    "name": "SRE Portfolio",
+    "statement": "A compilation of cloud projects showcasing skills and resilience as a self-taught learner. Portfolio site is deployed on a serverless Cloud Run service.",
+    "stack": ["Cloud Run", "Python", "Github Actions", "Terraform", "Google Cloud Storage"],
+    "github_url": "https://github.com/sherry-gcp/sre-portfolio",
+    "live_demo_url": "https://sherrym.dev",
+    "documentation_url": "https://github.com/sherry-gcp/sre-portfolio#readme"
+  }
+]
