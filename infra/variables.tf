@@ -9,7 +9,7 @@ variable "region" {
   description = "Primary region for resources"
 }
 
- variable "service_name" {
+variable "service_name" {
   type        = string
   default     = "portfolio-api"
   description = "The name of the Cloud Run service"
@@ -25,12 +25,6 @@ variable "image_tag" {
   type        = string
   default     = "v1"
   description = "The specific tag of the Docker image to deploy (provided by CI/CD)"
-}
-
-variable "firestore_name" {
-  type        = string
-  description = "Firestore database default name"
-  default     = "(default)"
 }
 
 variable "github_username" {

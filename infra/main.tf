@@ -1,13 +1,13 @@
 resource "google_project_service" "services" {
   for_each = toset([
     "compute.googleapis.com",
-    "firestore.googleapis.com",
     "logging.googleapis.com",
     "monitoring.googleapis.com",
     "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
     "cloudresourcemanager.googleapis.com",
-    "iam.googleapis.com"
+    "iam.googleapis.com",
+    "storage.googleapis.com"
   ])
   service            = each.key
   disable_on_destroy = false
