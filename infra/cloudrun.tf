@@ -41,7 +41,7 @@ resource "google_cloud_run_v2_service" "api_server" {
   }
 
   depends_on = [
-    google_project_service.cloud_run_api, google_project_iam_member.firestore_user
+    google_project_service.cloud_run_api
   ]
 }
 
@@ -55,7 +55,7 @@ resource "google_cloud_run_service_iam_member" "public_access" {
 }
 
 resource "google_monitoring_uptime_check_config" "https_check" {
-  display_name = "Store Locator API Health Check"
+  display_name = "SRE Portfolio API Health Check"
   timeout      = "10s"
   period       = "60s"
 
