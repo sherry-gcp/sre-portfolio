@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% set active_page = "connect" %}
+{% block title %}Engineer Portfolio - Connect{% endblock %}
+
+{% block content %}
+<main class="flex-grow flex items-center justify-center px-8 pt-24 pb-24">
+  <div class="max-w-4xl w-full flex flex-col lg:flex-row gap-16 lg:gap-32 items-center lg:items-start">
+    <!-- Left Column: Editorial Text -->
+    <div class="flex-1 space-y-8 text-center lg:text-left">
+      <h1 class="font-headline text-5xl lg:text-7xl font-extrabold tracking-tighter text-on-surface leading-tight">
+        Let's Build <br class="hidden lg:block" />Something.
+      </h1>
+      <p class="font-body text-lg lg:text-xl text-on-surface-variant max-w-lg mx-auto lg:mx-0 leading-relaxed">
+        I am currently open to discussing new employment opportunites, cloud projects, and collaborative engineering
+        ventures.
+      </p>
+      <div class="pt-4">
+        <p class="font-label text-sm uppercase tracking-widest text-outline">Currently based in the Philippines.</p>
+      </div>
+    </div>
+    <!-- Right Column: Links -->
+    <div class="flex-1 w-full space-y-6">
+      <!-- Email -->
+      <a class="group block p-8 bg-surface-container-lowest hover:-translate-y-1 transition-transform duration-500 ease-in-out rounded-xl shadow-[0_40px_100px_rgba(60,48,31,0.06)] relative overflow-hidden"
+        href="mailto:hello@sherrym.dev">
+        <div
+          class="absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-x-4 group-hover:translate-x-0">
+          <span class="material-symbols-outlined text-3xl text-primary">arrow_forward</span>
+        </div>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Email Me</p>
+        <h2 class="font-headline text-3xl font-bold text-on-surface">hello@sherrym.dev</h2>
+      </a>
+      <!-- LinkedIn Profile -->
+      <a class="group block p-8 bg-surface-container-lowest hover:-translate-y-1 transition-transform duration-500 ease-in-out rounded-xl shadow-[0_40px_100px_rgba(60,48,31,0.06)] relative overflow-hidden"
+        href="https://www.linkedin.com/in/sherrymt" target="_blank" rel="noopener noreferrer">
+        <div
+          class="absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-x-4 group-hover:translate-x-0">
+          <span class="material-symbols-outlined text-3xl text-primary">arrow_forward</span>
+        </div>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">LinkedIn Profile</p>
+        <h2 class="font-headline text-3xl font-bold text-on-surface">Sherry M.</h2>
+      </a>
+      <!-- GitHub Repositories -->
+      <a class="group block p-8 bg-surface-container-lowest hover:-translate-y-1 transition-transform duration-500 ease-in-out rounded-xl shadow-[0_40px_100px_rgba(60,48,31,0.06)] relative overflow-hidden"
+        href="https://github.com/sherry-gcp" target="_blank" rel="noopener noreferrer">
+        <div
+          class="absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-x-4 group-hover:translate-x-0">
+          <span class="material-symbols-outlined text-3xl text-primary">arrow_forward</span>
+        </div>
+        <p class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2">Code &amp; Repositories</p>
+        <h2 class="font-headline text-3xl font-bold text-on-surface">sherry-gcp</h2>
+      </a>
+    </div>
+  </div>
+</main>
+{% endblock %}
