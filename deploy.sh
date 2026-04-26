@@ -33,7 +33,7 @@ echo "   -> Platform: linux/amd64 | Tag: $IMAGE_TAG"
 gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
 docker build --platform linux/amd64 -t $IMAGE_PATH .
 docker push $IMAGE_PATH
-echo "   ✅ Container image pushed to Artifact Registry."
+echo "   ✅ Container image linux/amd64 pushed to Artifact Registry."
 
 echo "🏗️ Step 5: Provisioning Full Infrastructure (Part 2 - Cloud Run & IAM)..."
 terraform -chdir=infra apply \
