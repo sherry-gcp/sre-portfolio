@@ -4,10 +4,10 @@ resource "google_service_account" "cloudrun_sa" {
   depends_on   = [google_project_service.services]
 }
 
-resource "google_project_iam_member" "storage_viewer" {
-  project = var.project_id
-  role    = "roles/storage.objectViewer"
-  member  = "serviceAccount:${google_service_account.cloudrun_sa.email}"
+resource "google_storage_bucket_iam_member" "api_storage_viewer" {
+  bucket = google_storage_bucket.assets_bucket.name
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.cloudrun_sa.email}"
 }
 
 data "google_project" "project" {
@@ -18,6 +18,7 @@ data "google_project" "project" {
 resource "google_service_account" "github_actions_sa" {
   account_id   = "github-actions-deployer"
   display_name = "GitHub Actions Deployment SA (Keyless)"
+  depends_on   = [time_sleep.wait_for_services]
 }
 
 resource "google_project_iam_member" "github_actions_roles" {
@@ -36,6 +37,7 @@ resource "google_iam_workload_identity_pool" "github_pool" {
   workload_identity_pool_id = "github-pool"
   display_name              = "GitHub Identity Pool"
   description               = "Identity pool for GitHub Actions"
+  depends_on                = [time_sleep.wait_for_services]
 }
 
 resource "google_iam_workload_identity_pool_provider" "github_provider" {
@@ -44,10 +46,13 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
   display_name                       = "GitHub Provider"
 
   attribute_mapping = {
-    "google.subject"       = "assertion.sub"
-    "attribute.actor"      = "assertion.actor"
-    "attribute.repository" = "assertion.repository"
+    "google.subject"             = "assertion.sub"
+    "attribute.actor"            = "assertion.actor"
+    "attribute.repository"       = "assertion.repository"
+    "attribute.repository_owner" = "assertion.repository_owner"
   }
+
+  attribute_condition = "assertion.repository_owner == '${var.github_username}'"
 
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
@@ -57,6 +62,5 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
 resource "google_service_account_iam_member" "wif_sa_user" {
   service_account_id = google_service_account.github_actions_sa.name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/sherry-gcp/sre-portfolio"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${var.github_username}/${var.github_repo_name}"
 }
-
