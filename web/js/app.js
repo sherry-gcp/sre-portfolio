@@ -54,4 +54,32 @@ function addLink(container, url, text, icon) {
     container.appendChild(a);
 }
 
-document.addEventListener('DOMContentLoaded', loadProjects);
+async function loadAssets() {
+    try {
+        const response = await fetch('/api/assets');
+        const assets = await response.json();
+
+        const portrait = document.getElementById('portrait-img');
+        const resume = document.getElementById('resume-link');
+        const resumeFooter = document.getElementById('resume-footer-link');
+
+        if (portrait && assets.portrait) {
+            portrait.src = assets.portrait;
+            // Reveal the image once the URL is set
+            portrait.classList.remove('opacity-0');
+        }
+        if (resume && assets.resume) {
+            resume.href = assets.resume;
+        }
+        if (resumeFooter && assets.resume) {
+            resumeFooter.href = assets.resume;
+        }
+    } catch (error) {
+        console.error("Asset Error:", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadProjects();
+    loadAssets();
+});
