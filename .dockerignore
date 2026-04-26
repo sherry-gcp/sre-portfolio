@@ -31,8 +31,8 @@ wheels/
 
 
 # --- GCP & Security ---
-*.json
-!api/data/projects.json
+*-key.json
+*credentials*.json
 !pyproject.toml
 .env
 .env.*

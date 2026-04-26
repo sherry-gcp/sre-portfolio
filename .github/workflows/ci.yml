@@ -1,0 +1,26 @@
+name: CI Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python & uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+
+      - name: Run Pytest
+        run: |
+          PYTHONPATH=. uv run pytest
+
+      - name: Dry-Run Docker Build
+        run: |
+          docker build --platform linux/amd64 -t test-portfolio-api:${{ github.sha }} .

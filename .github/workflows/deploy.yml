@@ -30,19 +30,18 @@ jobs:
         uses: "google-github-actions/auth@v2"
         with:
           workload_identity_provider: "${{ secrets.GCP_WIF_PROVIDER }}"
-          service_account: "github-actions-deployer@${{ secrets.GCP_PROJECT_ID
-            }}.iam.gserviceaccount.com"
+          service_account: "github-actions-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
 
       - name: "Set up Cloud SDK"
         uses: "google-github-actions/setup-gcloud@v2"
 
       - name: "Docker Auth"
         run: |-
-          gcloud auth configure-docker asia-southeast1-docker.pkg.dev
+          gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
 
       - name: Build and Push Container
         run: |-
-          docker build -t "asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}" .
+          docker build --platform linux/amd64 -t "asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}" .
           docker push "asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}"
 
       - name: Deploy to Cloud Run
@@ -51,8 +50,7 @@ jobs:
         with:
           service: portfolio-api
           region: asia-southeast1
-          image: asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID
-            }}/portfolio-repo/api:${{ github.sha }}
+          image: asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}
 
       - name: SRE Deployment Summary
         run: |
