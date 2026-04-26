@@ -19,6 +19,9 @@ app = FastAPI(
 
 app.include_router(project_router)
 
+app.mount("/js", StaticFiles(directory="web/js"), name="js")
+app.mount("/css", StaticFiles(directory="web/css"), name="css")
+
 templates = Jinja2Templates(directory="web/html")
 CACHE_HEADERS = {"Cache-Control": "public, max-age=86400"}
 
@@ -43,5 +46,3 @@ async def connect_page(request: Request):
     return templates.TemplateResponse(
         request=request, name="connect.html", headers=CACHE_HEADERS
     )
-app.mount("/js", StaticFiles(directory="web/js"), name="js")
-app.mount("/css", StaticFiles(directory="web/css"), name="css")
