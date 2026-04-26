@@ -21,6 +21,7 @@ wheels/
 
 # Other
 .vscode
+.agent/
 
 
 # --- Terraform ---
@@ -31,6 +32,8 @@ wheels/
 *.tfvars.json
 .terraform.lock.hcl
 terraform.tfvars
+infra/tfplan-full
+infra/tfplan-registry
 
 
 # --- GCP & Security ---
