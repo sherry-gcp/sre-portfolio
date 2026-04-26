@@ -10,6 +10,8 @@ resource "google_storage_bucket" "assets_bucket" {
     response_header = ["*"]
     max_age_seconds = 3600
   }
+
+  depends_on = [time_sleep.wait_for_services]
 }
 
 resource "google_storage_bucket_iam_member" "public_rule" {
