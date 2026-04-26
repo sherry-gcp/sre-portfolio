@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from api.logging_config import setup_gcp_logging
 from api.routers.project_router import router as project_router
+from api.routers.asset_router import router as asset_router
 from api.config import settings
 
 setup_gcp_logging()
@@ -18,6 +19,7 @@ app = FastAPI(
 )
 
 app.include_router(project_router)
+app.include_router(asset_router)
 
 app.mount("/js", StaticFiles(directory="web/js"), name="js")
 app.mount("/css", StaticFiles(directory="web/css"), name="css")
