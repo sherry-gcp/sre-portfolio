@@ -1,8 +1,11 @@
 # Git
 .git 
+.github/
 
 # Python-generated files
 __pycache__/
+.pytest_cache
+__pycache*
 *.py[cod]
 *$py.class
 *.py[oc]
@@ -41,6 +44,10 @@ terraform.tfvars
 *.tfstate
 *.tfstate.backup
 deploy.sh
+
+# --- Test ---
+tests/
+.agent/
 
 # --- Frontend ---
 tailwindcss-*
