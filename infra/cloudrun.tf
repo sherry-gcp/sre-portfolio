@@ -36,8 +36,14 @@ resource "google_cloud_run_v2_service" "api_server" {
 
     scaling {
       min_instance_count = 0
-      max_instance_count = 1
+      max_instance_count = 2
     }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      template[0].containers[0].image
+    ]
   }
 
   depends_on = [
@@ -56,8 +62,8 @@ resource "google_cloud_run_service_iam_member" "public_access" {
 
 resource "google_monitoring_uptime_check_config" "https_check" {
   display_name = "SRE Portfolio API Health Check"
-  timeout      = "10s"
-  period       = "60s"
+  timeout      = "60s"
+  period       = "300s"
 
   http_check {
     path         = "/health"
@@ -83,11 +89,11 @@ resource "google_monitoring_alert_policy" "uptime_alert" {
     display_name = "Uptime check failure"
     condition_threshold {
       filter          = "metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" AND resource.type=\"uptime_url\" AND metric.label.check_id=\"${google_monitoring_uptime_check_config.https_check.uptime_check_id}\""
-      duration        = "120s"
+      duration        = "180s"
       comparison      = "COMPARISON_GT"
       threshold_value = "1"
       aggregations {
-        alignment_period   = "60s"
+        alignment_period   = "180s"
         per_series_aligner = "ALIGN_FRACTION_TRUE"
       }
     }
