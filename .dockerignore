@@ -3,14 +3,13 @@
 
 # Python-generated files
 __pycache__/
+*.py[cod]
+*$py.class
 *.py[oc]
 build/
 dist/
 wheels/
 *.egg-info
-.pytest_cache/
-.coverage
-
 
 # Virtual environments
 .venv
@@ -20,25 +19,28 @@ wheels/
 .DS_Store
 
 # Other
+*.md
 .vscode
-
-
-# --- Terraform ---
-.terraform/
-*.tfstate
-*.tfstate.backup
-*.tfvars
-*.tfvars.json
-.terraform.lock.hcl
-terraform.tfvars
+.uv/
+.cache/
+.pytest_cache/
+.coverage
 
 
 # --- GCP & Security ---
 *.json
-!pyproject.toml
 !api/data/projects.json
+!pyproject.toml
 .env
 .env.*
+
+# --- Terraform & Deploy ---
+infra/
+terraform.tfvars
+.terraform/
+*.tfstate
+*.tfstate.backup
+deploy.sh
 
 # --- Frontend ---
 tailwindcss-*
