@@ -1,7 +1,29 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Starting 1-Click SRE Portfolio Deployment..."
+echo "🚀 Starting SRE Portfolio Deployment..."
+
+# --- SRE Pre-flight Checks ---
+echo "🔍 Checking authentication..."
+if ! gcloud auth list --filter=status:ACTIVE --format="value(account)" | grep -q "@"; then
+    echo "❌ Error: No active gcloud account found. Please run: gcloud auth login"
+    exit 1
+fi
+echo "   ✅ gcloud authenticated."
+
+echo "🔍 Checking GitHub authentication..."
+if ! gh auth status > /dev/null 2>&1; then
+    echo "❌ Error: Not logged into GitHub CLI. Please run: gh auth login"
+    exit 1
+fi
+echo "   ✅ GitHub authenticated."
+
+echo "🔍 Checking Docker engine..."
+if ! docker info > /dev/null 2>&1; then
+    echo "❌ Error: Docker daemon is not running. Please start Docker Desktop."
+    exit 1
+fi
+echo "   ✅ Docker is running."
 
 # 0. Set variables
 PROJECT_ID=$(gcloud config get-value project)
@@ -9,39 +31,66 @@ REGION="asia-southeast1"
 IMAGE_TAG=$(date +%Y%m%d%H%M%S)
 IMAGE_PATH="$REGION-docker.pkg.dev/$PROJECT_ID/portfolio-repo/api:$IMAGE_TAG"
 
-echo "🎨 Step 1: Compiling Production CSS..."
-echo "   -> Running Tailwind CLI (No-Node standalone binary)"
+# Detect GitHub Details dynamically
+GITHUB_FULL_REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
+GITHUB_USERNAME=$(echo $GITHUB_FULL_REPO | cut -d'/' -f1)
+GITHUB_REPO_NAME=$(echo $GITHUB_FULL_REPO | cut -d'/' -f2)
+
+TF_VARS="-var=project_id=$PROJECT_ID -var=image_tag=$IMAGE_TAG -var=github_username=$GITHUB_USERNAME -var=github_repo_name=$GITHUB_REPO_NAME"
+
+echo "🎨 STEP 1: COMPILING PRODUCTION CSS..."
 if [ -f "./tailwindcss-macos-arm64" ]; then
     ./tailwindcss-macos-arm64 -i ./web/css/input.css -o ./web/css/main.css --minify
-    echo "   ✅ main.css updated successfully."
+    echo "   ✅ CSS updated."
 else
     echo "   ⚠️ Tailwind binary not found, skipping local compilation..."
 fi
 
-echo "🧪 Step 2: Running Automated Tests..."
-echo "   -> Validating API endpoints, Pydantic models, and project data"
+echo ""
+echo "====================================================="
+echo "🧪 STEP 2: RUNNING AUTOMATED TESTS..."
+echo "====================================================="
 PYTHONPATH=. uv run pytest
-echo "   ✅ All tests passed. Code is stable."
+echo "   ✅ All tests passed."
 
-echo "📦 Step 3: Bootstrapping Infrastructure..."
-echo "   -> Initializing Terraform and provisioning Artifact Registry"
-terraform -chdir=infra init
-terraform -chdir=infra apply -target=google_artifact_registry_repository.repo -auto-approve
+echo ""
+echo "====================================================="
+echo "📦 STEP 3: BOOTSTRAPPING REGISTRY..."
+echo "====================================================="
+terraform -chdir=infra init > /dev/null
 
-echo "🐳 Step 4: Building and Pushing Docker Image..."
-echo "   -> Platform: linux/amd64 | Tag: $IMAGE_TAG"
+echo "   $ terraform -chdir=infra plan -target=google_artifact_registry_repository.portfolio-repo"
+terraform -chdir=infra plan -target=google_artifact_registry_repository.portfolio-repo $TF_VARS -out=tfplan-registry
+
+echo ""
+echo "====================================================="
+echo "🚀 EXECUTING REGISTRY PLAN..."
+echo "====================================================="
+sleep 2
+
+terraform -chdir=infra apply "tfplan-registry"
+
+echo ""
+echo "====================================================="
+echo "🐳 STEP 4: BUILDING & PUSHING DOCKER IMAGE..."
+echo "====================================================="
 gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
 docker build --platform linux/amd64 -t $IMAGE_PATH .
 docker push $IMAGE_PATH
-echo "   ✅ Container image linux/amd64 pushed to Artifact Registry."
 
-echo "🏗️ Step 5: Provisioning Full Infrastructure (Part 2 - Cloud Run & IAM)..."
-terraform -chdir=infra apply \
-  -var="project_id=$PROJECT_ID" \
-  -var="image_tag=$IMAGE_TAG" \
-  -auto-approve
+echo ""
+echo "====================================================="
+echo "🏗️ STEP 5: PROVISIONING FULL INFRASTRUCTURE..."
+echo "====================================================="
+terraform -chdir=infra plan $TF_VARS -out=tfplan-full
 
-echo "✅ Application Deployment Complete!"
-echo "   -> Version: $IMAGE_TAG"
-echo "   -> URL: $(gcloud run services describe portfolio-api --region $REGION --format 'value(status.url)')"
-echo "   -> SRE Status: Active | Monitoring: Enabled"
+echo ""
+echo "====================================================="
+echo "🚀 EXECUTING FULL INFRASTRUCTURE PLAN..."
+echo "====================================================="
+sleep 2
+
+terraform -chdir=infra apply "tfplan-full"
+
+echo "✅ Deployment Complete!"
+echo "   -> URL: $(terraform -chdir=infra output -raw service_url)"

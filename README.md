@@ -23,8 +23,40 @@ This portfolio uses a **Separation of Concerns** architecture:
 *   [gcloud CLI](https://cloud.google.com/sdk/docs/install)
 *   [Terraform](https://developer.hashicorp.com/terraform/downloads)
 *   [Docker](https://www.docker.com/) (Required for local deployment testing)
+*   [GitHub CLI](https://cli.github.com/) (Required to set deployment secrets)
 
-### 2. Setup
+### 2. Authentication
+Before running the deployment, ensure your local CLIs are authenticated:
+
+#### Google Cloud
+```bash
+# Log in to the gcloud CLI
+gcloud auth login
+
+# Set your active project
+gcloud config set project <YOUR_PROJECT_ID>
+
+# Required for Terraform to access GCP APIs
+gcloud auth application-default login
+```
+
+#### GitHub
+```bash
+# Log in to the GitHub CLI
+gh auth login
+```
+
+### 3. Customizing Configuration (Optional)
+If you want to run Terraform manually (without `deploy.sh`), you should create a variable file in the `infra/` directory:
+
+```hcl
+# infra/terraform.tfvars
+project_id      = "your-project-id"
+github_username  = "your-github-username"
+github_repo_name = "sre-portfolio"
+```
+
+### 4. Setup and test for local deployment
 ```bash
 # Install dependencies
 uv sync
@@ -51,11 +83,14 @@ chmod +x deploy.sh
 ./deploy.sh
 ```
 
-**What this script does:**
-1. Runs tests and compiles CSS.
-2. Initializes Terraform and creates the Artifact Registry.
-3. Uses local Docker to build and push the initial image.
-4. Runs a full `terraform apply` to provision the Cloud Run service, GCS Bucket, and Workload Identity Federation (WIF) pool.
+**The Bootstrap Workflow (`deploy.sh`):**
+
+1.  **SRE Pre-flight Checks:** Verifies `gcloud` authentication and Docker engine status before starting.
+2.  **Asset Preparation:** Compiles production Tailwind CSS and runs the full Pytest suite.
+3.  **Phase 1 Infra (Registry):** Targeted Terraform apply to create the **Artifact Registry** (The "Home" for your images).
+4.  **Containerization:** Builds the `linux/amd64` Docker image locally and pushes it to the new registry.
+5.  **Phase 2 Infra (Full Stack):** Final Terraform apply to provision **Cloud Run**, **GCS Buckets**, **IAM Roles**, and **Uptime Monitoring**.
+6.  **Identity Setup:** Provisions the **Workload Identity Pool** needed for GitHub Actions (Day 2+).
 
 ---
 
@@ -63,29 +98,46 @@ chmod +x deploy.sh
 
 Once Day 1 is complete, you will use **GitHub Actions** for all future app updates. This ensures true separation of concerns: Terraform handles infrastructure, GitHub handles code.
 
-### 1. Configure GitHub Secrets (One-time setup)
-After running `deploy.sh`, configure GitHub with the "Keyless" OIDC provider outputted by Terraform:
+### 1. Configure GitHub Secrets (CRITICAL One-time setup)
+After running `deploy.sh`, you **must** configure GitHub with the "Keyless" OIDC provider. This allows GitHub to talk to Google Cloud without using insecure JSON keys.
 
 ```bash
-# Set your Project ID
+# 1. Set your Project ID
 gh secret set GCP_PROJECT_ID --body "$(gcloud config get-value project)"
 
-# Set the WIF Provider (Check the end of your deploy.sh output for this value)
-gh secret set GCP_WIF_PROVIDER --body "projects/123456789/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+# 2. Set the WIF Provider 
+# Get the full provider path from Terraform output:
+WIF_VALUE=$(terraform -chdir=infra output -raw workload_identity_provider)
+gh secret set GCP_WIF_PROVIDER --body "$WIF_VALUE"
 ```
 
-### 2. The Deployment Flow
-To deploy new code changes (like updating `web/` HTML or CSS), simply push to the repository:
+### 💡 Why this pipeline is "Solid" (SRE Audit):
+*   **Keyless Authentication:** Uses Workload Identity Federation (OIDC) instead of static service account keys.
+*   **Immutable Tagging:** Every deployment is tagged with the Git commit hash (`github.sha`), providing a perfect audit trail.
+*   **Separation of Concerns:** Application updates happen in GitHub; Infrastructure remains locked in Terraform. No state drift.
+
+### 2. The SRE Deployment Flow (CI/CD)
+This project enforces a professional **Shift-Left Testing** model. You should *never* push code directly to the `main` branch. 
+
+Instead, follow the Branch-and-PR workflow:
 
 ```bash
-git add .
-git commit -m "feat: updated portfolio content"
-git push origin main
+# 1. Create a new feature branch
+git checkout -b feature/update-portfolio
+
+# 2. Make your code changes, then commit them
+git add [file/directory]
+git commit -m "feat: [description]"
+
+# 3. Push your branch to GitHub
+git push origin [branch-name]
 ```
-GitHub Actions will build the new image and update the Cloud Run revision with zero downtime. Due to Terraform's `lifecycle` blocks, this will **not** cause state drift with your infrastructure code.
 
----
+**What happens next?**
+1. **Continuous Integration (CI):** When you open a Pull Request against `main`, the `ci.yml` workflow will automatically trigger. It will run all Pytest suites and perform a dry-run Docker build to ensure your code is stable.
+2. **Continuous Deployment (CD):** Once the CI checks pass and you click **Merge Pull Request**, the `deploy.yml` workflow takes over. It builds the final container, pushes it to Artifact Registry, and deploys the new revision to Cloud Run with zero downtime.
 
+*(Note: Due to Terraform's `lifecycle` blocks, GitHub Actions deploying new images will **not** cause state drift with your infrastructure code).*
 ## 📂 Project Structure
 ```text
 ├── api/                # FastAPI Backend & Models
