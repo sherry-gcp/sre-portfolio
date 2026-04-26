@@ -20,7 +20,7 @@ def get_project_service(repo: JsonRepository = Depends(get_repo)):
 Service = Annotated[ProjectService, Depends(get_project_service)]
 
 
-@router.get("/", response_model=list[Project])
+@router.get("", response_model=list[Project])
 async def list_projects(service: Service):
     """Fetch all projects from the static JSON store."""
     return await service.get_all_projects()
