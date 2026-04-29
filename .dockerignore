@@ -28,6 +28,8 @@ wheels/
 .cache/
 .pytest_cache/
 .coverage
+.agent
+*bucket/
 
 
 # --- GCP & Security ---
@@ -47,7 +49,6 @@ deploy.sh
 
 # --- Test ---
 tests/
-.agent/
 
 # --- Frontend ---
 tailwindcss-*
