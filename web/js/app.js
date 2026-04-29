@@ -40,16 +40,29 @@ async function loadProjects() {
 
 function addLink(container, url, text, icon) {
     if (!url) return;
+    
+    // Map Material Icons to SVG paths
+    const iconPaths = {
+        'code': '<path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>',
+        'visibility': '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>',
+        'description': '<path d="M14 2H6c-1.1 0-1.99.89-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.89 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>'
+    };
+
+    const svgIcon = iconPaths[icon] || '';
     const a = document.createElement('a');
     a.href = url;
     a.target = "_blank";
-    a.className = "bg-primary text-on-primary px-6 py-2.5 rounded-lg font-body font-medium hover:opacity-90 transition-opacity flex items-center justify-between min-w-[160px]";
+    a.className = "group bg-primary text-on-primary pl-6 pr-4 py-2.5 rounded-lg font-body font-medium transition-all duration-300 flex items-center justify-between w-full md:min-w-[240px] relative overflow-hidden";
     a.innerHTML = `
         <span class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-[20px]">${icon}</span>
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                ${svgIcon}
+            </svg>
             ${text}
         </span>
-        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        <svg class="w-6 h-6 fill-none stroke-current stroke-2 flex-shrink-0 opacity-0 -translate-x-4 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-700 ease-in-out" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+        </svg>
     `;
     container.appendChild(a);
 }

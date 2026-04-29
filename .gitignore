@@ -22,6 +22,8 @@ wheels/
 # Other
 .vscode
 .agent/
+*bucket/
+
 
 
 # --- Terraform ---
