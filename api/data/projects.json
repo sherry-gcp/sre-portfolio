@@ -2,7 +2,7 @@
   {
     "id": "farmers-fleet",
     "name": "Farmers Fleet",
-    "statement": "An event-driven logistics system deployed via Infrastructure as Code (IaC) on Google Kubernetes Engine. Designed to connect farmers and fleet through a centralized, real-time dispatch tower.",
+    "statement": "An event-driven logistics system deployed via Infrastructure as Code (IaC) on Google Kubernetes Engine. With three-portal ecosystem designed to connect farmers and fleet. Developed with a deploy script to provision Terraform, seed the database, and deploy to GKE clusters.",
     "stack": [
       "Kubernetes",
       "Google Maps Platform",
@@ -13,13 +13,14 @@
       "Maps Javascript API"
     ],
     "github_url": "https://github.com/sherry-gcp/farmers-fleet",
+    "live_demo_label": "Watch Demo",
     "live_demo_url": "https://youtu.be/4wY-8xipKCc",
     "documentation_url": "https://github.com/sherry-gcp/farmers-fleet/tree/main/Documentation"
   },
   {
     "id": "store-locator",
-    "name": "Store Locator & Discovery",
-    "statement": "A cloud-native store locator application with discovery features showing five nearest stores on the map from a user's starting location. Uses Google Maps Platform APIs for location services.",
+    "name": "Store Locator with Discovery",
+    "statement": "A cloud-native store locator with discovery features showing five nearest stores on the map from the user's starting point. Integrated Google Maps Platform APIs, and deployed via Docker, gcloud CLI, and Terraform modules.",
     "stack": [
       "Serverless",
       "Distance Matrix API",
@@ -29,19 +30,15 @@
       "Google Maps Platform"
     ],
     "github_url": "https://github.com/sherry-gcp/store-locator-maps",
+    "live_demo_label": "Watch Demo",
     "live_demo_url": "https://youtu.be/B_G-MbKrVa4",
     "documentation_url": "https://github.com/sherry-gcp/store-locator-maps/blob/main/docs/migration.md"
   },
   {
     "id": "sql-data-warehouse",
     "name": "SQL Data Warehouse Project",
-    "statement": "A personal deep dive into SQL and Data Warehousing, implementing the Medallion Architecture (Bronze, Silver, Gold) and Star Schema modeling.",
-    "stack": [
-      "SQL Server",
-      "Docker",
-      "Azure Data Studio",
-      "Notion"
-    ],
+    "statement": "A personal deep dive into SQL and Data Warehousing, implementing the Medallion Architecture (Bronze, Silver, Gold). I was curious to learn how businesses transforms raw data into structured system for business insights and analytics.",
+    "stack": ["SQL Server", "Docker", "Azure Data Studio", "Notion"],
     "github_url": "https://github.com/sherry-gcp/sql-datawarehouse-project",
     "live_demo_label": "Course Page",
     "live_demo_url": "https://www.datawithbaraa.com/course/sql-full-course-for-beginners",
@@ -50,23 +47,17 @@
   {
     "id": "sand-gravel-ops",
     "name": "Sand Gravel Ops",
-    "statement": "A streamlined API for sand and gravel operations, designed to manage orders, track inventory, and monitor status.",
-    "stack": [
-      "PostgreSQL",
-      "Docker",
-      "SQLAlchemy",
-      "FastAPI",
-      "Python"
-    ],
+    "statement": "A streamlined API for sand and gravel operations, designed to manage orders, track inventory, and monitor status. Integrated Postgres container on local Docker, managed database and server through PostgreSQL extension.",
+    "stack": ["PostgreSQL", "Docker", "SQLAlchemy", "FastAPI", "Python"],
     "github_url": "https://github.com/sherry-gcp/sand-gravel-ops",
-    "live_demo_label": "Preview",
+    "live_demo_label": "View Snapshot",
     "live_demo_url": "https://github.com/sherry-gcp/sand-gravel-ops/blob/main/media/sg-ops-api.png",
     "documentation_url": "https://github.com/sherry-gcp/sand-gravel-ops/blob/main/README.md"
   },
   {
     "id": "sre-portfolio",
     "name": "Portfolio Website",
-    "statement": "A compilation of cloud projects showcasing skills and resilience as a self-taught learner. Portfolio site is deployed on a serverless Cloud Run service.",
+    "statement": "A compilation of cloud projects showcasing skills and resilience as a self-taught learner. Utilized Github Actions for CI/CD, deploying the application on Cloud Run with assets stored in Cloud Storage.",
     "stack": [
       "Cloud Run",
       "Python",
@@ -75,6 +66,7 @@
       "Google Cloud Storage"
     ],
     "github_url": "https://github.com/sherry-gcp/sre-portfolio",
+    "live_demo_label": "Live Site",
     "live_demo_url": "https://sherrym.dev",
     "documentation_url": "https://github.com/sherry-gcp/sre-portfolio#readme"
   }

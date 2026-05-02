@@ -39,9 +39,32 @@ variable "github_repo_name" {
   default     = ""
 }
 
-variable "pipeline_file" {
+variable "domain_name" {
   type        = string
-  description = "Pipeline filename for CI/CD yaml"
+  description = "Custom domain to map to Cloud Run service"
+}
+
+variable "managed_zone" {
+  type        = string
+  description = "Cloud DNS managed zone name for the domain"
+}
+
+variable "betterstack_api_token" {
+  type        = string
+  description = "BetterStack (Better Uptime) API Token"
+  sensitive   = true
+  default     = ""
+}
+
+variable "status_page_url" {
+  type        = string
+  description = "Public status page URL (BetterStack or similar)"
+  default     = ""
+}
+
+variable "heartbeat_url" {
+  type        = string
+  description = "BetterStack Heartbeat URL"
   default     = ""
 }
 

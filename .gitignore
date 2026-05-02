@@ -21,8 +21,6 @@ wheels/
 
 # Other
 .vscode
-.agent/
-*bucket/
 
 
 
@@ -40,8 +38,6 @@ infra/tfplan-registry
 
 # --- GCP & Security ---
 *.json
-!pyproject.toml
-!api/data/projects.json
 .env
 .env.*
 

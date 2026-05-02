@@ -1,21 +1,20 @@
 import json
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class GCPJsonFormatter(logging.Formatter):
-    """
-    SRE Best Practice: Structured Logging.
-    This formatter converts logs into a JSON format that Google Cloud Logging
-    can parse automatically into its "JsonPayload" field.
-    """
+    """GCP Structured Logging."""
 
     def format(self, record):
         log_record = {
             "severity": record.levelname,
             "message": record.getMessage(),
-            "timestamp": datetime.fromtimestamp(record.created).isoformat() + "Z",
+            "timestamp": datetime.fromtimestamp(
+                record.created,
+                tz=timezone.utc,
+            ).isoformat(),
             "logging.googleapis.com/sourceLocation": {
                 "file": record.pathname,
                 "line": record.lineno,

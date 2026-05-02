@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Starting SRE Portfolio Deployment..."
+echo "🚀 Starting Portfolio Deployment..."
 
 # --- SRE Pre-flight Checks ---
 echo "🔍 Checking authentication..."
@@ -25,13 +25,11 @@ if ! docker info > /dev/null 2>&1; then
 fi
 echo "   ✅ Docker is running."
 
-# 0. Set variables
 PROJECT_ID=$(gcloud config get-value project)
 REGION="asia-southeast1"
 IMAGE_TAG=$(date +%Y%m%d%H%M%S)
 IMAGE_PATH="$REGION-docker.pkg.dev/$PROJECT_ID/portfolio-repo/api:$IMAGE_TAG"
 
-# Detect GitHub Details dynamically
 GITHUB_FULL_REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
 GITHUB_USERNAME=$(echo $GITHUB_FULL_REPO | cut -d'/' -f1)
 GITHUB_REPO_NAME=$(echo $GITHUB_FULL_REPO | cut -d'/' -f2)
@@ -50,6 +48,7 @@ echo ""
 echo "====================================================="
 echo "🧪 STEP 2: RUNNING AUTOMATED TESTS..."
 echo "====================================================="
+uv sync
 PYTHONPATH=. uv run pytest
 echo "   ✅ All tests passed."
 
@@ -82,15 +81,20 @@ echo ""
 echo "====================================================="
 echo "🏗️ STEP 5: PROVISIONING FULL INFRASTRUCTURE..."
 echo "====================================================="
+echo "   📍 Creating domain mapping first..."
+terraform -chdir=infra apply $TF_VARS -target=google_cloud_run_domain_mapping.portfolio_domain -auto-approve
+
+echo "   📍 Provisioning remaining resources..."
 terraform -chdir=infra plan $TF_VARS -out=tfplan-full
-
-echo ""
-echo "====================================================="
-echo "🚀 EXECUTING FULL INFRASTRUCTURE PLAN..."
-echo "====================================================="
-sleep 2
-
 terraform -chdir=infra apply "tfplan-full"
 
 echo "✅ Deployment Complete!"
 echo "   -> URL: $(terraform -chdir=infra output -raw service_url)"
+
+HEARTBEAT_URL=$(terraform -chdir=infra output -raw heartbeat_url 2>/dev/null || echo "")
+if [ -n "$HEARTBEAT_URL" ]; then
+    echo ""
+    echo "💓 Pinging BetterStack Heartbeat..."
+    curl -s "$HEARTBEAT_URL" > /dev/null
+    echo "   ✅ Heartbeat registered."
+fi
