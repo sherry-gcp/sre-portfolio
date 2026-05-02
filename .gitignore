@@ -23,6 +23,7 @@ wheels/
 .vscode
 .agent/
 *bucket/
+web/img/portrait.jpg
 
 
 
