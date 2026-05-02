@@ -4,7 +4,7 @@
 [![Better Stack](https://img.shields.io/badge/BetterStack-Operational-10b981?style=flat-square&logo=better-stack&logoColor=white)](https://status.sherrym.dev)
 [![GCP](https://img.shields.io/badge/Google_Cloud-Asia--Southeast1-4285F4?style=flat-square&logo=google-cloud&logoColor=white)](https://cloud.google.com/)
 
-> A serverless portfolio demonstrating the transition from static web hosting to a cloud-native architecture. Built on Google Cloud using fully managed compute (Cloud Run) and object storage (GCS) for maximum scalability and zero-infrastructure overhead.
+> A serverless portfolio demonstrating cloud-native architecture. Built on Google Cloud using fully managed compute (Cloud Run) and object storage (GCS).
 
 ## Tech Stack
 
@@ -85,7 +85,7 @@
 > 5.  Provisions the full **infrastructure**: **Cloud Run**, **GCS Buckets**, **Cloud DNS**, **IAM Roles and Permissions**.
 > 6.  Pings Better Stack monitoring.
 
-## Continuous Deployment (GitHub Actions)
+## Continuous Delivery (GitHub Actions)
 
 ### Configure GitHub Secrets
 
@@ -123,13 +123,12 @@ This project enforces **the Shift-Left Testing model** and follows a Branch-and-
 
 > **GitOps Pipeline**
 >
-> - When a **Pull Request** is opened or a **Commit** is pushed to `main`, the following automated validation and deployment sequence triggers:
-> - PR Open ➔ Pytest Audit ➔ OIDC Auth ➔ Immutable Build ➔ Artifact Push ➔ Cloud Run Rollout ➔ Better Stack Ping ➔ Success
+> - **Continuous Integration (CI):** Triggered on **Pull Request** to run automated validation:
+>   - PR Open ➔ Pytest Audit ➔ Dry-Run Build ➔ Success
+> - **Continuous Delivery (CD):** Deployment is triggered manually from **`main`** (via GitHub Actions `workflow_dispatch`):
+>   - Manual Trigger ➔ OIDC Auth ➔ Immutable Build ➔ Artifact Push ➔ Cloud Run Rollout ➔ Success
 
-> **CI/CD Logic**
->
-> - **Continuous Integration (CI):** Triggered on Pull Request to run `pytest` and a dry-run Docker build.
-> - **Continuous Deployment (CD):** Triggered manually (via GitHub Actions `workflow_dispatch`). 
+
 
 ## Project Structure
 
