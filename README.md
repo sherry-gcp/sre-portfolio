@@ -6,13 +6,6 @@
 
 > A serverless portfolio demonstrating the transition from static web hosting to a cloud-native architecture. Built on Google Cloud using fully managed compute (Cloud Run) and object storage (GCS) for maximum scalability and zero-infrastructure overhead.
 
-## Technical Features
-
-- **Infrastructure as Code (IaC):** 100% of the platform (IAM, Cloud Run, Artifact Registry, GCS) is managed via **Terraform** for reproducible deployments.
-- **Observability:** Integrated with **Better Stack** for external uptime monitoring and automated heartbeat pings triggered by successful deployment cycles.
-- **Security (Zero-Trust):** Utilizes **Workload Identity Federation (WIF)** for keyless, OIDC-based authentication between GitHub Actions and Google Cloud.
-- **Cost-Optimization:** Leverages a **Serverless** architecture with "Scale-to-Zero" configuration, maintaining a near-zero monthly bill while handling traffic spikes dynamically.
-
 ## Tech Stack
 
 | Layer              | Technology                                          |
