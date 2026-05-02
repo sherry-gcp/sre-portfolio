@@ -14,7 +14,7 @@ def test_read_main():
 
 def test_get_projects_list():
     """Test the API returns the list of projects."""
-    response = client.get("/api/projects/")
+    response = client.get("/api/projects")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
