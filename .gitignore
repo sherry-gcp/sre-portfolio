@@ -21,9 +21,6 @@ wheels/
 
 # Other
 .vscode
-.agent/
-*bucket/
-web/img/portrait.jpg
 
 
 
@@ -41,8 +38,6 @@ infra/tfplan-registry
 
 # --- GCP & Security ---
 *.json
-!pyproject.toml
-!api/data/projects.json
 .env
 .env.*
 

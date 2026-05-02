@@ -28,16 +28,12 @@ wheels/
 .cache/
 .pytest_cache/
 .coverage
-.agent
-bucket/
-.projects-bucket/
-LICENSE
+
 
 
 # --- GCP & Security ---
 *-key.json
 *credentials*.json
-!pyproject.toml
 .env
 .env.*
 
