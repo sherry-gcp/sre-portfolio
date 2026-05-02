@@ -137,7 +137,7 @@ This project enforces **the Shift-Left Testing model** and follows a Branch-and-
 > **CI/CD Logic**
 >
 > - **Continuous Integration (CI):** Triggered on Pull Request to run `pytest` and a dry-run Docker build.
-> - **Continuous Deployment (CD):** Triggered on Merge to `main` for the high-availability rollout.
+> - **Continuous Deployment (CD):** Triggered manually (via GitHub Actions `workflow_dispatch`). 
 
 > [!NOTE] Due to Terraform's `lifecycle { ignore_changes = [image] }` blocks, GitHub Actions deploying new images will **not** cause state drift with the infrastructure code.
 
