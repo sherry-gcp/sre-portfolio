@@ -1,19 +1,19 @@
-# Sherry's SRE Portfolio
+# Cloud Portfolio
 
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/sherry-gcp/sre-portfolio/deploy.yml?branch=main&style=flat-square&logo=github-actions&logoColor=white)](https://github.com/sherry-gcp/sre-portfolio/actions)
-[![Better Stack](https://img.shields.io/badge/BetterStack-Operational-10b981?style=flat-square&logo=better-stack&logoColor=white)](https://status.sherrym.dev)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/[GITHUB_USERNAME]/[REPO_NAME]/deploy.yml?branch=main&style=flat-square&logo=github-actions&logoColor=white)](https://github.com/[GITHUB_USERNAME]/[REPO_NAME]/actions)
+[![Better Stack](https://img.shields.io/badge/BetterStack-Operational-10b981?style=flat-square&logo=better-stack&logoColor=white)](https://status.[YOUR_DOMAIN].dev)
 [![GCP](https://img.shields.io/badge/Google_Cloud-Asia--Southeast1-4285F4?style=flat-square&logo=google-cloud&logoColor=white)](https://cloud.google.com/)
 
 > A serverless portfolio demonstrating the transition from static web hosting to a cloud-native architecture. Built on Google Cloud using fully managed compute (Cloud Run) and object storage (GCS) for maximum scalability and zero-infrastructure overhead.
 
-## 🏗️ Technical Features
+## Technical Features
 
 - **Infrastructure as Code (IaC):** 100% of the platform (IAM, Cloud Run, Artifact Registry, GCS) is managed via **Terraform** for reproducible deployments.
 - **Observability:** Integrated with **Better Stack** for external uptime monitoring and automated heartbeat pings triggered by successful deployment cycles.
 - **Security (Zero-Trust):** Utilizes **Workload Identity Federation (WIF)** for keyless, OIDC-based authentication between GitHub Actions and Google Cloud.
 - **Cost-Optimization:** Leverages a **Serverless** architecture with "Scale-to-Zero" configuration, maintaining a near-zero monthly bill while handling traffic spikes dynamically.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer              | Technology                                          |
 | :----------------- | :-------------------------------------------------- |
@@ -77,22 +77,21 @@ github_repo_name = "sre-portfolio"
 
 ## Infrastructure Bootstrap
 
-Run the bootstrap script:
+- Run the bootstrap script:
 
-```bash
-chmod +x deploy.sh
-./deploy.sh
-```
+  ```bash
+  chmod +x deploy.sh
+  ./deploy.sh
+  ```
 
-> [!NOTE]
-> Bootstrap Workflow (`deploy.sh`):
->
-> 1.  Verifies `gcloud` and `GitHub` authentication and checks Docker engine status.
-> 2.  Installs project dependencies, compiles Tailwind CSS, and runs `pytest`.
-> 3.  Provisions **Artifact Registry** via Terraform.
-> 4.  Builds the Docker image locally and pushes it to the registry.
-> 5.  Provisions the full **infrastructure**: **Cloud Run**, **GCS Buckets**, **Cloud DNS**, **IAM Roles and Permissions**.
-> 6.  Pings Better Stack monitoring.
+  > Bootstrap Workflow (`deploy.sh`):
+  >
+  > 1.  Verifies `gcloud` and `GitHub` authentication and checks Docker engine status.
+  > 2.  Installs project dependencies, compiles Tailwind CSS, and runs `pytest`.
+  > 3.  Provisions **Artifact Registry** via Terraform.
+  > 4.  Builds the Docker image locally and pushes it to the registry.
+  > 5.  Provisions the full **infrastructure**: **Cloud Run**, **GCS Buckets**, **Cloud DNS**, **IAM Roles and Permissions**.
+  > 6.  Pings Better Stack monitoring.
 
 ## Continuous Deployment (GitHub Actions)
 
@@ -130,21 +129,19 @@ This project enforces **the Shift-Left Testing model** and follows a Branch-and-
   git push origin [branch-name]
   ```
 
-### GitOps Pipeline
+> **GitOps Pipeline**
+>
+> - When a **Pull Request** is opened or a **Commit** is pushed to `main`, the following automated validation and deployment sequence triggers:
+> - PR Open ➔ Pytest Audit ➔ OIDC Auth ➔ Immutable Build ➔ Artifact Push ➔ Cloud Run Rollout ➔ Better Stack Ping ➔ Success
 
-When a **Pull Request** is opened or a **Commit** is pushed to `main`, the following automated validation and deployment sequence triggers:
+> **CI/CD Logic**
+>
+> - **Continuous Integration (CI):** Triggered on Pull Request to run `pytest` and a dry-run Docker build.
+> - **Continuous Deployment (CD):** Triggered on Merge to `main` for the high-availability rollout.
 
-`PR Open` ➔ `Pytest Audit` ➔ `OIDC Auth` ➔ `Immutable Build` ➔ `Artifact Push` ➔ `Cloud Run Rollout` ➔ `Better Stack Ping` ➔ `Success`
+> [!NOTE] Due to Terraform's `lifecycle { ignore_changes = [image] }` blocks, GitHub Actions deploying new images will **not** cause state drift with the infrastructure code.
 
-### CI/CD Logic
-
-- **Continuous Integration (CI):** Triggered on Pull Request to run `pytest` and a dry-run Docker build.
-- **Continuous Deployment (CD):** Triggered on Merge to `main` for the high-availability rollout.
-
-  > [!NOTE]
-  > Due to Terraform's `lifecycle { ignore_changes = [image] }` blocks, GitHub Actions deploying new images will **not** cause state drift with the infrastructure code.
-
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ├── api/                # FastAPI Backend & Models
@@ -158,6 +155,6 @@ When a **Pull Request** is opened or a **Commit** is pushed to `main`, the follo
     └── js/             # Vanilla JS Logic
 ```
 
-## 📝 License
+## License
 
 **MIT License**. See [LICENSE](LICENSE.md) file for details.
