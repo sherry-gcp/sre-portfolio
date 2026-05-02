@@ -12,7 +12,7 @@
 | :----------------- | :-------------------------------------------------- |
 | **Backend**        | FastAPI, Python 3.12+, `uv`                         |
 | **Frontend**       | Stitch AI, Vanilla JS, Tailwind CSS, Jinja2         |
-| **Infrastructure** | Google Cloud (Cloud Run, GCS, Cloud DNS), Terraform |
+| **Infrastructure** | Cloud Run, GCS, Cloud DNS, Terraform                |
 | **Security**       | Workload Identity Federation                        |
 | **CI/CD**          | GitHub Actions, Docker, Cloud Build                 |
 | **Observability**  | Cloud Logging, Better Stack (Uptime + Heartbeats)   |
