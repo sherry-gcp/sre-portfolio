@@ -1,7 +1,7 @@
 # Cloud Portfolio
 
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/[GITHUB_USERNAME]/[REPO_NAME]/deploy.yml?branch=main&style=flat-square&logo=github-actions&logoColor=white)](https://github.com/[GITHUB_USERNAME]/[REPO_NAME]/actions)
-[![Better Stack](https://img.shields.io/badge/BetterStack-Operational-10b981?style=flat-square&logo=better-stack&logoColor=white)](https://status.[YOUR_DOMAIN].dev)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/sherry-gcp/sre-portfolio/deploy.yml?branch=main&style=flat-square&logo=github-actions&logoColor=white)](https://github.com/sherry-gcp/sre-portfolio/actions)
+[![Better Stack](https://img.shields.io/badge/BetterStack-Operational-10b981?style=flat-square&logo=better-stack&logoColor=white)](https://status.sherrym.dev)
 [![GCP](https://img.shields.io/badge/Google_Cloud-Asia--Southeast1-4285F4?style=flat-square&logo=google-cloud&logoColor=white)](https://cloud.google.com/)
 
 > A serverless portfolio demonstrating the transition from static web hosting to a cloud-native architecture. Built on Google Cloud using fully managed compute (Cloud Run) and object storage (GCS) for maximum scalability and zero-infrastructure overhead.
