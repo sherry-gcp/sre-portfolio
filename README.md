@@ -48,13 +48,12 @@
   ```
 
 ### 3. Configure Terraform variables
-
-```hcl
-# infra/terraform.tfvars
-project_id      = "your-project-id"
-github_username  = "your-github-username"
-github_repo_name = "sre-portfolio"
-```
+- Edit the infra/terraform.tfvars file
+  ```hcl
+  project_id      = "your-project-id"
+  github_username  = "your-github-username"
+  github_repo_name = "sre-portfolio"
+  ```
 
 ### 4. Setup and test for local deployment
 
@@ -84,14 +83,14 @@ github_repo_name = "sre-portfolio"
   ./deploy.sh
   ```
 
-  > Bootstrap Workflow (`deploy.sh`):
-  >
-  > 1.  Verifies `gcloud` and `GitHub` authentication and checks Docker engine status.
-  > 2.  Installs project dependencies, compiles Tailwind CSS, and runs `pytest`.
-  > 3.  Provisions **Artifact Registry** via Terraform.
-  > 4.  Builds the Docker image locally and pushes it to the registry.
-  > 5.  Provisions the full **infrastructure**: **Cloud Run**, **GCS Buckets**, **Cloud DNS**, **IAM Roles and Permissions**.
-  > 6.  Pings Better Stack monitoring.
+> Bootstrap Workflow (`deploy.sh`):
+>
+> 1.  Verifies `gcloud` and `GitHub` authentication and checks Docker engine status.
+> 2.  Installs project dependencies, compiles Tailwind CSS, and runs `pytest`.
+> 3.  Provisions **Artifact Registry** via Terraform.
+> 4.  Builds the Docker image locally and pushes it to the registry.
+> 5.  Provisions the full **infrastructure**: **Cloud Run**, **GCS Buckets**, **Cloud DNS**, **IAM Roles and Permissions**.
+> 6.  Pings Better Stack monitoring.
 
 ## Continuous Deployment (GitHub Actions)
 
@@ -138,8 +137,6 @@ This project enforces **the Shift-Left Testing model** and follows a Branch-and-
 >
 > - **Continuous Integration (CI):** Triggered on Pull Request to run `pytest` and a dry-run Docker build.
 > - **Continuous Deployment (CD):** Triggered manually (via GitHub Actions `workflow_dispatch`). 
-
-> [!NOTE] Due to Terraform's `lifecycle { ignore_changes = [image] }` blocks, GitHub Actions deploying new images will **not** cause state drift with the infrastructure code.
 
 ## Project Structure
 
