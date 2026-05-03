@@ -8,14 +8,14 @@
 
 ## Tech Stack
 
-| Layer              | Technology                                          |
-| :----------------- | :-------------------------------------------------- |
-| **Backend**        | FastAPI, Python 3.12+, `uv`                         |
-| **Frontend**       | Stitch AI, Vanilla JS, Tailwind CSS, Jinja2         |
-| **Infrastructure** | Cloud Run, GCS, Cloud DNS, Terraform                |
-| **Security**       | Workload Identity Federation                        |
-| **CI/CD**          | GitHub Actions, Docker, Cloud Build                 |
-| **Observability**  | Cloud Logging, Better Stack (Uptime + Heartbeats)   |
+| Layer              | Technology                                        |
+| :----------------- | :------------------------------------------------ |
+| **Backend**        | FastAPI, Python 3.12+, `uv`                       |
+| **Frontend**       | Stitch AI, Vanilla JS, Tailwind CSS, Jinja2       |
+| **Infrastructure** | Cloud Run, GCS, Cloud DNS, Terraform              |
+| **Security**       | Workload Identity Federation                      |
+| **CI/CD**          | GitHub Actions, Docker, Cloud Build               |
+| **Observability**  | Cloud Logging, Better Stack (Uptime + Heartbeats) |
 
 ## Quickstart
 
@@ -41,6 +41,7 @@
   ```
 
 ### 3. Configure Terraform variables
+
 - Edit the infra/terraform.tfvars file
   ```hcl
   project_id      = "your-project-id"
@@ -127,8 +128,6 @@ This project enforces **the Shift-Left Testing model** and follows a Branch-and-
 >   - PR Open ➔ Pytest Audit ➔ Dry-Run Build ➔ Success
 > - **Continuous Delivery (CD):** Deployment is triggered manually from **`main`** (via GitHub Actions `workflow_dispatch`):
 >   - Manual Trigger ➔ OIDC Auth ➔ Immutable Build ➔ Artifact Push ➔ Cloud Run Rollout ➔ Success
-
-
 
 ## Project Structure
 
