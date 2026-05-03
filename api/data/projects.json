@@ -15,6 +15,7 @@
     "github_url": "https://github.com/sherry-gcp/farmers-fleet",
     "live_demo_label": "Watch Demo",
     "live_demo_url": "https://youtu.be/4wY-8xipKCc",
+    "documentation_label": "Documentation",
     "documentation_url": "https://github.com/sherry-gcp/farmers-fleet/tree/main/Documentation"
   },
   {
@@ -32,27 +33,41 @@
     "github_url": "https://github.com/sherry-gcp/store-locator-maps",
     "live_demo_label": "Watch Demo",
     "live_demo_url": "https://youtu.be/B_G-MbKrVa4",
+    "documentation_label": "Documentation",
     "documentation_url": "https://github.com/sherry-gcp/store-locator-maps/blob/main/docs/migration.md"
   },
   {
     "id": "sql-data-warehouse",
     "name": "SQL Data Warehouse Project",
     "statement": "A personal deep dive into SQL and Data Warehousing, implementing the Medallion Architecture (Bronze, Silver, Gold). I was curious to learn how businesses transforms raw data into structured system for business insights and analytics.",
-    "stack": ["SQL Server", "Docker", "Azure Data Studio", "Notion"],
+    "stack": [
+      "SQL Server",
+      "Docker",
+      "Azure Data Studio",
+      "Notion"
+    ],
     "github_url": "https://github.com/sherry-gcp/sql-datawarehouse-project",
-    "live_demo_label": "Course Page",
-    "live_demo_url": "https://www.datawithbaraa.com/course/sql-full-course-for-beginners",
-    "documentation_url": "https://www.notion.so/Data-Warehouse-Project-30edb763bb4980e5b02ef514c9ea6bda"
+    "live_demo_label": "Notion",
+    "live_demo_url": "https://www.notion.so/Data-Warehouse-Project-30edb763bb4980e5b02ef514c9ea6bda",
+    "documentation_label": "Data Architecture",
+    "documentation_url": "https://github.com/sherry-gcp/sql-datawarehouse-project/tree/main/docs"
   },
   {
     "id": "sand-gravel-ops",
     "name": "Sand Gravel Ops",
-    "statement": "A streamlined API for sand and gravel operations, designed to manage orders, track inventory, and monitor status. Integrated Postgres container on local Docker, managed database and server through PostgreSQL extension.",
-    "stack": ["PostgreSQL", "Docker", "SQLAlchemy", "FastAPI", "Python"],
+    "statement": "A streamlined API for sand and gravel operations, designed to manage orders, track inventory, and monitor status. Integrated PostgreSQL container on local Docker, managed database and server through PostgreSQL extension. A personal capstone following Learn to Cloud curriculum.",
+    "stack": [
+      "PostgreSQL",
+      "Docker",
+      "SQLAlchemy",
+      "FastAPI",
+      "Python"
+    ],
     "github_url": "https://github.com/sherry-gcp/sand-gravel-ops",
     "live_demo_label": "View Snapshot",
     "live_demo_url": "https://github.com/sherry-gcp/sand-gravel-ops/blob/main/media/sg-ops-api.png",
-    "documentation_url": "https://github.com/sherry-gcp/sand-gravel-ops/blob/main/README.md"
+    "documentation_label": "Learn to Cloud",
+    "documentation_url": "https://learntocloud.guide/"
   },
   {
     "id": "sre-portfolio",
@@ -68,6 +83,7 @@
     "github_url": "https://github.com/sherry-gcp/sre-portfolio",
     "live_demo_label": "Live Site",
     "live_demo_url": "https://sherrym.dev",
-    "documentation_url": "https://github.com/sherry-gcp/sre-portfolio#readme"
+    "documentation_label": "Live Status",
+    "documentation_url": "https://status.sherrym.dev/"
   }
 ]
