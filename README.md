@@ -46,7 +46,7 @@
   ```hcl
   project_id      = "your-project-id"
   github_username  = "your-github-username"
-  github_repo_name = "sre-portfolio"
+  github_repo_name = "your-portfolio-name"
   ```
 
 ### 4. Setup and test for local deployment
