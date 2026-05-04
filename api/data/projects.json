@@ -47,14 +47,14 @@
       "Notion"
     ],
     "github_url": "https://github.com/sherry-gcp/sql-datawarehouse-project",
-    "live_demo_label": "Notion",
-    "live_demo_url": "https://www.notion.so/Data-Warehouse-Project-30edb763bb4980e5b02ef514c9ea6bda",
-    "documentation_label": "Data Architecture",
-    "documentation_url": "https://github.com/sherry-gcp/sql-datawarehouse-project/tree/main/docs"
+    "live_demo_label": "Data Architecture",
+    "live_demo_url": "https://github.com/sherry-gcp/sql-datawarehouse-project/tree/main/docs",
+    "documentation_label": "Notion Workspace",
+    "documentation_url": "https://www.notion.so/Data-Warehouse-Project-30edb763bb4980e5b02ef514c9ea6bda"
   },
   {
     "id": "sand-gravel-ops",
-    "name": "Sand Gravel Ops",
+    "name": "Sand and Gravel Ops",
     "statement": "A streamlined API for sand and gravel operations, designed to manage orders, track inventory, and monitor status. Integrated PostgreSQL container on local Docker, managed database and server through PostgreSQL extension. A personal capstone following Learn to Cloud curriculum.",
     "stack": [
       "PostgreSQL",
