@@ -7,6 +7,6 @@ output "workload_identity_provider" {
   description = "The Workload Identity Provider ID for GitHub Actions"
 }
 
-output "heartbeat_url" {
-  value = var.heartbeat_url
+output "beat_url" {
+  value = var.beat_url
 }

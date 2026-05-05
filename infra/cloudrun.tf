@@ -18,9 +18,10 @@ resource "google_cloud_run_v2_service" "api_server" {
       image = "${var.region}-docker.pkg.dev/${var.project_id}/${var.repo_id}/api:${var.image_tag}"
 
       resources {
+        cpu_idle = true
         limits = {
           cpu    = "1"
-          memory = "512Mi"
+          memory = "256Mi"
         }
       }
 
@@ -31,12 +32,13 @@ resource "google_cloud_run_v2_service" "api_server" {
 
     scaling {
       min_instance_count = 0
-      max_instance_count = 2
+      max_instance_count = 1
     }
   }
 
   lifecycle {
     ignore_changes = [
+      template[0].containers[0].image,
       template[0].labels,
       client,
       client_version

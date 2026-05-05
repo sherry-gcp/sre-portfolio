@@ -91,10 +91,10 @@ terraform -chdir=infra apply "tfplan-full"
 echo "✅ Deployment Complete!"
 echo "   -> URL: $(terraform -chdir=infra output -raw service_url)"
 
-HEARTBEAT_URL=$(terraform -chdir=infra output -raw heartbeat_url 2>/dev/null || echo "")
-if [ -n "$HEARTBEAT_URL" ]; then
+BEAT_URL=$(terraform -chdir=infra output -raw beat_url 2>/dev/null || echo "")
+if [ -n "$BEAT_URL" ]; then
     echo ""
-    echo "💓 Pinging BetterStack Heartbeat..."
-    curl -s "$HEARTBEAT_URL" > /dev/null
-    echo "   ✅ Heartbeat registered."
+    echo "💓 Pinging Cronitor Beat..."
+    curl --retry 3 --retry-delay 2 -s "$BEAT_URL" > /dev/null
+    echo "   ✅ Beat registered."
 fi

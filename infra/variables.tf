@@ -49,22 +49,20 @@ variable "managed_zone" {
   description = "Cloud DNS managed zone name for the domain"
 }
 
-variable "betterstack_api_token" {
-  type        = string
-  description = "BetterStack (Better Uptime) API Token"
-  sensitive   = true
-  default     = ""
-}
-
 variable "status_page_url" {
   type        = string
-  description = "Public status page URL (BetterStack or similar)"
+  description = "Public status page URL"
   default     = ""
 }
 
-variable "heartbeat_url" {
+variable "beat_url" {
   type        = string
-  description = "BetterStack Heartbeat URL"
+  description = "Cronitor Beat URL for uptime monitoring"
   default     = ""
 }
 
+variable "cronitor_telemetry" {
+  type        = string
+  description = "Unique Cronitor Telemetry URL to manage beats"
+  default     = ""
+}
