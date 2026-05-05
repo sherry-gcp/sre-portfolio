@@ -22,7 +22,7 @@ jobs:
         python-version: "3.13"
 
     - name: Compile Tailwind CSS
-      run: npx --yes tailwindcss -i ./web/css/input.css -o ./web/css/main.css --minify
+      run: npx --yes @tailwindcss/cli -i ./web/css/input.css -o ./web/css/main.css --minify
 
     - name: Run Tests
       run: |
