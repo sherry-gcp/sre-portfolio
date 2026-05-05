@@ -3,6 +3,7 @@ name: Deploy Portfolio
 on:
   workflow_dispatch:
 
+
 jobs:
   test-and-deploy:
     runs-on: ubuntu-latest
@@ -12,49 +13,56 @@ jobs:
       id-token: "write"
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-      - name: Setup Python & uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          python-version: "3.13"
+    - name: Setup Python & uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        python-version: "3.13"
 
-      - name: Run Tests
-        run: |
-          PYTHONPATH=. uv run pytest
+    - name: Compile Tailwind CSS
+      run: npx --yes tailwindcss -i ./web/css/input.css -o ./web/css/main.css --minify
 
-      - name: Google Auth
-        if: success()
-        uses: "google-github-actions/auth@v2"
-        with:
-          workload_identity_provider: "${{ secrets.GCP_WIF_PROVIDER }}"
-          service_account: "github-actions-deployer@${{ secrets.GCP_PROJECT_ID
-            }}.iam.gserviceaccount.com"
+    - name: Run Tests
+      run: |
+        uv sync
+        PYTHONPATH=. uv run pytest
 
-      - name: "Set up Cloud SDK"
-        uses: "google-github-actions/setup-gcloud@v2"
+    - name: Google Auth
+      if: success()
+      uses: "google-github-actions/auth@v2"
+      with:
+        workload_identity_provider: "${{ secrets.GCP_WIF_PROVIDER }}"
+        service_account: "github-actions-deployer@${{ secrets.GCP_PROJECT_ID }}.iam.gserviceaccount.com"
 
-      - name: "Docker Auth"
-        run: |-
-          gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
+    - name: Set up Cloud SDK
+      uses: "google-github-actions/setup-gcloud@v2"
 
-      - name: Build and Push Container
-        run: |-
-          docker build --platform linux/amd64 -t "asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}" .
-          docker push "asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}"
+    - name: Docker Auth
+      run: |-
+        gcloud auth configure-docker asia-southeast1-docker.pkg.dev --quiet
 
-      - name: Deploy to Cloud Run
-        id: deploy
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          service: portfolio-api
-          region: asia-southeast1
-          image: asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID
-            }}/portfolio-repo/api:${{ github.sha }}
+    - name: Build and Push Container
+      run: |-
+        docker build --platform linux/amd64 -t "asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}" .
+        docker push "asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}"
 
-      - name: SRE Deployment Summary
-        run: |
-          echo "## Deployment Complete!" >> $GITHUB_STEP_SUMMARY
-          echo "SRE Portfolio is live at: ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
-          echo "Version: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+    - name: Deploy to Cloud Run
+      id: deploy
+      uses: google-github-actions/deploy-cloudrun@v2
+      with:
+        service: portfolio-api
+        region: asia-southeast1
+        image: asia-southeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/portfolio-repo/api:${{ github.sha }}
+
+    - name: Deployment Summary
+      run: |
+        echo "## Deployment Complete!" >> $GITHUB_STEP_SUMMARY
+        echo "SRE Portfolio is live at: ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+        echo "Version: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+    - name: Ping Cronitor Beat
+      if: success()
+      run: |
+        curl --retry 3 --retry-delay 2 -s "${{ secrets.CRONITOR_BEAT_URL }}" > /dev/null
+        echo "Beat pinged!"
