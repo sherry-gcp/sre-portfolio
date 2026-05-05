@@ -39,13 +39,8 @@
   {
     "id": "sql-data-warehouse",
     "name": "SQL Data Warehouse Project",
-    "statement": "A personal deep dive into SQL and Data Warehousing, implementing the Medallion Architecture (Bronze, Silver, Gold). I was curious to learn how businesses transforms raw data into structured system for business insights and analytics.",
-    "stack": [
-      "SQL Server",
-      "Docker",
-      "Azure Data Studio",
-      "Notion"
-    ],
+    "statement": "In this project, I explored SQL and Data Warehousing by implementing the Medallion Architecture. I was keen to understand how businesses transform raw data into a structured system to drive business intelligence.",
+    "stack": ["SQL Server", "Docker", "Azure Data Studio", "Notion"],
     "github_url": "https://github.com/sherry-gcp/sql-datawarehouse-project",
     "live_demo_label": "Data Architecture",
     "live_demo_url": "https://github.com/sherry-gcp/sql-datawarehouse-project/tree/main/docs",
@@ -55,14 +50,8 @@
   {
     "id": "sand-gravel-ops",
     "name": "Sand and Gravel Ops",
-    "statement": "A streamlined API for sand and gravel operations, designed to manage orders, track inventory, and monitor status. Integrated PostgreSQL container on local Docker, managed database and server through PostgreSQL extension. A personal capstone following Learn to Cloud curriculum.",
-    "stack": [
-      "PostgreSQL",
-      "Docker",
-      "SQLAlchemy",
-      "FastAPI",
-      "Python"
-    ],
+    "statement": "A streamlined API for sand and gravel operations, designed to manage orders, track inventory, and monitor status. I integrated a PostgreSQL container via Docker and managed the database using the PostgreSQL extension. This project serves as a personal capstone following the Learn to Cloud curriculum.",
+    "stack": ["PostgreSQL", "Docker", "SQLAlchemy", "FastAPI", "Python"],
     "github_url": "https://github.com/sherry-gcp/sand-gravel-ops",
     "live_demo_label": "View Snapshot",
     "live_demo_url": "https://github.com/sherry-gcp/sand-gravel-ops/blob/main/media/sg-ops-api.png",
@@ -72,7 +61,7 @@
   {
     "id": "sre-portfolio",
     "name": "Portfolio Website",
-    "statement": "A compilation of cloud projects showcasing skills and resilience as a self-taught learner. Utilized Github Actions for CI/CD, deploying the application on Cloud Run with assets stored in Cloud Storage.",
+    "statement": "A compilation of cloud-based projects demonstrating technical proficiency and resilience as a self-taught engineer. Developed a Python and FastAPI backend with a Google Labs' Stitch-designed frontend, utilizing GitHub Actions for CI/CD to automate deployments to Cloud Run and hosting static assets in Cloud Storage.",
     "stack": [
       "Cloud Run",
       "Python",
