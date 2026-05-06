@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import Depends, FastAPI, Request, Response
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -33,12 +34,18 @@ async def favicon():
     return Response(status_code=204)
 
 
+@app.get("/robots.txt", include_in_schema=False)
+async def robots():
+    """Serve robots.txt to discourage aggressive crawlers."""
+    return FileResponse("web/robots.txt")
+
+
 app.mount("/js", StaticFiles(directory="web/js", html=False), name="js")
 app.mount("/css", StaticFiles(directory="web/css", html=False), name="css")
 app.mount("/img", StaticFiles(directory="web/img", html=False), name="img")
 
 templates = Jinja2Templates(directory="web/html")
-HTML_CACHE_HEADERS = {"Cache-Control": "no-cache, no-store, must-revalidate"}
+HTML_CACHE_HEADERS = {"Cache-Control": "public, max-age=86400"}
 
 
 @app.get("/")
