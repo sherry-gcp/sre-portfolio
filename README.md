@@ -1,21 +1,21 @@
 # Cloud Portfolio
 
 [![GitHub Actions](https://img.shields.io/github/actions/workflow/status/sherry-gcp/sre-portfolio/deploy.yml?branch=main&style=flat-square&logo=github-actions&logoColor=white)](https://github.com/sherry-gcp/sre-portfolio/actions)
-[![Better Stack](https://img.shields.io/badge/BetterStack-Operational-10b981?style=flat-square&logo=better-stack&logoColor=white)](https://status.sherrym.dev)
+[![Cronitor](https://img.shields.io/badge/Cronitor-Operational-10b981?style=flat-square&logo=cronitor&logoColor=white)](https://sherrym.cronitorstatus.com)
 [![GCP](https://img.shields.io/badge/Google_Cloud-Asia--Southeast1-4285F4?style=flat-square&logo=google-cloud&logoColor=white)](https://cloud.google.com/)
 
 > A serverless portfolio demonstrating cloud-native architecture. Built on Google Cloud using fully managed compute (Cloud Run) and object storage (GCS).
 
 ## Tech Stack
 
-| Layer              | Technology                                        |
-| :----------------- | :------------------------------------------------ |
-| **Backend**        | FastAPI, Python 3.12+, `uv`                       |
-| **Frontend**       | Stitch AI, Vanilla JS, Tailwind CSS, Jinja2       |
-| **Infrastructure** | Cloud Run, GCS, Cloud DNS, Terraform              |
-| **Security**       | Workload Identity Federation                      |
-| **CI/CD**          | GitHub Actions, Docker, Cloud Build               |
-| **Observability**  | Cloud Logging, Better Stack (Uptime + Heartbeats) |
+| Layer              | Technology                                     |
+| :----------------- | :--------------------------------------------- |
+| **Backend**        | FastAPI, Python 3.12+, `uv`                    |
+| **Frontend**       | Stitch AI, Vanilla JS, Tailwind CSS, Jinja2    |
+| **Infrastructure** | Cloud Run, GCS, Cloud DNS, Terraform           |
+| **Security**       | Workload Identity Federation                   |
+| **CI/CD**          | GitHub Actions, Docker, Cloud Build            |
+| **Observability**  | Cloud Logging, Cronitor (Jobs, Uptime + Beats) |
 
 ## Quickstart
 
@@ -84,7 +84,7 @@
 > 3.  Provisions **Artifact Registry** via Terraform.
 > 4.  Builds the Docker image locally and pushes it to the registry.
 > 5.  Provisions the full **infrastructure**: **Cloud Run**, **GCS Buckets**, **Cloud DNS**, **IAM Roles and Permissions**.
-> 6.  Pings Better Stack monitoring.
+> 6.  Pings Cronitor monitoring.
 
 ## Continuous Delivery (GitHub Actions)
 
@@ -100,6 +100,10 @@
   ```bash
   WIF_VALUE=$(terraform -chdir=infra output -raw workload_identity_provider)
   gh secret set GCP_WIF_PROVIDER --body "$WIF_VALUE"
+  ```
+- Set Cronitor Beat URL:
+  ```bash
+  gh secret set CRONITOR_BEAT_URL --body "your-cronitor-beat-url"
   ```
 
 ### Deployment Flow
@@ -132,15 +136,21 @@ This project enforces **the Shift-Left Testing model** and follows a Branch-and-
 ## Project Structure
 
 ```text
-├── api/                # FastAPI Backend & Models
-│   ├── data/           # JSON Project Database
-│   └── routers/        # API Endpoints
-├── infra/              # Terraform HCL files
-├── tests/              # Pytest automated suite
-└── web/                # Frontend Assets
-    ├── html/           # Jinja2 Templates
-    ├── css/            # Compiled Tailwind CSS
-    └── js/             # Vanilla JS Logic
+├── api/                # FastAPI Backend
+│   ├── data/           # JSON Project Data
+│   ├── models/         # Pydantic Data Models
+│   ├── repositories/   # Data Access Layer
+│   ├── routers/        # API Endpoints
+│   └── services/       # Backend Logic
+├── infra/              # Terraform HCL
+├── tests/              # Pytest Suite
+├── web/                # Frontend Assets
+│   ├── html/
+│   ├── css/
+│   └── js/
+├── deploy.sh           # Local Bootstrap Script
+├── main.py             # Application Entrypoint
+└── pyproject.toml      # Build & Dependency Config
 ```
 
 ## License
