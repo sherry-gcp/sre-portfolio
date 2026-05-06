@@ -4,6 +4,8 @@ from fastapi import Depends, FastAPI, Request, Response
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.gzip import GZipMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from api.config import settings
 from api.logging_config import setup_gcp_logging
@@ -16,6 +18,39 @@ setup_gcp_logging()
 logger = logging.getLogger(__name__)
 logger.info("Portfolio API booting up...")
 
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        response.headers["Strict-Transport-Security"] = (
+            "max-age=31536000; includeSubDomains"
+        )
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+
+        csp = (
+            "default-src 'self'; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com; "
+            "img-src 'self' data: https://portfolio-assets-sre-portfoliox.storage.googleapis.com; "
+            "script-src 'self' 'unsafe-inline' https://rum.cronitor.io; "
+            "connect-src 'self' https://rum.cronitor.io;"
+        )
+        response.headers["Content-Security-Policy"] = csp
+        return response
+
+
+class CacheControlMiddleware(BaseHTTPMiddleware):
+    """Cache control for static assets."""
+
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+        if request.url.path.startswith(("/js/", "/css/", "/img/")):
+            response.headers["Cache-Control"] = "public, max-age=86400"
+        return response
+
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="A stateless, high-performance SRE portfolio",
@@ -23,6 +58,10 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None,
 )
+
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(CacheControlMiddleware)
 
 app.include_router(project_router)
 app.include_router(asset_router)
