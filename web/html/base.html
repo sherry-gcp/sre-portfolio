@@ -17,6 +17,13 @@
         }
     </style>
 
+    <!-- Cronitor RUM -->
+    <script async src="https://rum.cronitor.io/script.js"></script>
+    <script>
+        window.cronitor = window.cronitor || function () { (window.cronitor.q = window.cronitor.q || []).push(arguments); };
+        cronitor('config', { clientKey: '09c026d15f8bce31a30f44d8c0d0b27a' });
+    </script>
+
     <title>{% block title %}SRE Portfolio{% endblock %}</title>
 </head>
 
@@ -55,7 +62,7 @@
             <div class="flex-1 flex justify-end items-center gap-2 sm:gap-4">
                 <a id="status-indicator"
                     class="flex items-center gap-1.5 px-2 py-1 text-zinc-400 hover:text-zinc-100 font-body text-xs font-bold uppercase tracking-wider transition-colors"
-                    href="https://status.sherrym.dev" target="_blank">
+                    href="https://sherrym.cronitorstatus.com" target="_blank">
                     <span id="status-dot" class="w-2 h-2 rounded-full bg-zinc-500"></span>
                     <span id="status-text" class="hidden lg:inline">Checking</span>
                 </a>
