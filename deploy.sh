@@ -95,6 +95,9 @@ BEAT_URL=$(terraform -chdir=infra output -raw beat_url 2>/dev/null || echo "")
 if [ -n "$BEAT_URL" ]; then
     echo ""
     echo "💓 Pinging Cronitor Beat..."
-    curl --retry 3 --retry-delay 2 -s "$BEAT_URL" > /dev/null
-    echo "   ✅ Beat registered."
+    if curl --fail --retry 3 --retry-delay 2 -s "$BEAT_URL" > /dev/null; then
+        echo "   ✅ Beat registered."
+    else
+        echo "   ❌ Beat ping failed! Check your CRONITOR_BEAT_URL."
+    fi
 fi
