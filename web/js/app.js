@@ -32,7 +32,7 @@ async function updateStatus() {
 
 
     try {
-        statusLink.href = "https://status.sherrym.dev";
+        statusLink.href = "https://sherrym.cronitorstatus.com";
 
         statusDot.className = "w-2 h-2 rounded-full bg-[#10b981] shadow-status-glow";
         statusText.textContent = "Operational";
