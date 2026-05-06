@@ -1,0 +1,16 @@
+name: Cronitor Scheduled Ping
+
+on:
+  schedule:
+  - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+
+jobs:
+  telemetry:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send Telemetry to Cronitor
+      run: |
+        curl --retry 3 -s "${{ secrets.CRONITOR_BEAT_URL }}" > /dev/null
+        echo "✅ Scheduled telemetry ping sent."
