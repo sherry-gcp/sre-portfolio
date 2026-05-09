@@ -29,15 +29,6 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["X-XSS-Protection"] = "1; mode=block"
 
-        csp = (
-            "default-src 'self'; "
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-            "font-src 'self' https://fonts.gstatic.com; "
-            "img-src 'self' data: https://portfolio-assets-sre-portfoliox.storage.googleapis.com; "
-            "script-src 'self' 'unsafe-inline' https://rum.cronitor.io; "
-            "connect-src 'self' https://rum.cronitor.io;"
-        )
-        response.headers["Content-Security-Policy"] = csp
         return response
 
 
