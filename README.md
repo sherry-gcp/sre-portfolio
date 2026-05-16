@@ -83,7 +83,7 @@
 > 2.  Installs project dependencies, compiles Tailwind CSS, and runs `pytest`.
 > 3.  Provisions **Artifact Registry** via Terraform.
 > 4.  Builds the Docker image locally and pushes it to the registry.
-> 5.  Provisions the full **infrastructure**: **Cloud Run**, **GCS Buckets**, **Cloud DNS**, **IAM Roles and Permissions**.
+> 5.  Provisions the full infrastructure: **Cloud Run**, **GCS Buckets**, **Cloud DNS**, **IAM Roles and Permissions**.
 > 6.  Pings Cronitor monitoring.
 
 ## Continuous Delivery (GitHub Actions)
@@ -108,7 +108,7 @@
 
 ### Deployment Flow
 
-This project enforces **the Shift-Left Testing model** and follows a Branch-and-PR workflow:
+This project enforces the **Shift-Left Testing model** and follows a Branch-and-PR workflow:
 
 > Test locally → Test in PR → Build → Deploy → Success
 
